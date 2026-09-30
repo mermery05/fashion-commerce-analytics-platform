@@ -223,8 +223,12 @@ data/raw/
 data/bronze/
 *.duckdb
 *.duckdb.wal
+data/sample/*
+!data/sample/.gitkeep
+!data/sample/README.md
 
 # dbt
 dbt_project/target/
 dbt_project/dbt_packages/
 dbt_project/logs/
+
