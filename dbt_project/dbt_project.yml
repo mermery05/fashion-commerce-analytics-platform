@@ -1,0 +1,24 @@
+name: fashion
+version: "1.0.0"
+config-version: 2
+profile: fashion
+
+model-paths: ["models"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+clean-targets: ["target", "dbt_packages"]
+
+vars:
+  # Fixed "as of" date = last date in the dataset. Used instead of current_date
+  # so age / tenure are reproducible no matter when the pipeline runs.
+  reference_date: "2022-08-01"
+
+models:
+  fashion:
+    staging:
+      +materialized: table
+      +schema: silver
+    marts:
+      +materialized: table
+      +schema: gold

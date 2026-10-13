@@ -1,0 +1,8 @@
+fashion:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      # Relative to the folder dbt is run from (dbt_project/)
+      path: ../data/warehouse.duckdb
+      threads: 4

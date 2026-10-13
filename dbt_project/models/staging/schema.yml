@@ -1,0 +1,109 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: >
+      One row per customer. PII (names, email, username, device id) is removed.
+      Age and tenure are measured at the fixed reference_date variable.
+    columns:
+      - name: customer_id
+        description: Unique customer key.
+        data_tests: [unique, not_null]
+      - name: gender
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['M', 'F']
+      - name: is_age_plausible
+        description: False when age is under 15 (kept, but flagged).
+
+  - name: stg_products
+    description: >
+      One row per product. Missing colour, season and usage are imputed
+      (rules in the SQL); metadata_status records whether the raw row was complete.
+    columns:
+      - name: product_id
+        data_tests: [unique, not_null]
+      - name: master_category
+        data_tests: [not_null]
+      - name: sub_category
+        data_tests: [not_null]
+      - name: article_type
+        data_tests: [not_null]
+      - name: base_colour
+        data_tests: [not_null]
+      - name: season
+        data_tests: [not_null]
+      - name: usage
+        data_tests: [not_null]
+      - name: metadata_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Complete', 'Incomplete']
+
+  - name: stg_transactions
+    description: >
+      One row per order line. Order-level amounts (promo_amount, shipment_fee,
+      total_amount) repeat on each line of an order, so never sum them here.
+    columns:
+      - name: order_line_id
+        data_tests: [unique, not_null]
+      - name: booking_id
+        data_tests: [not_null]
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
+              config:
+                severity: warn
+      - name: product_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_products')
+                field: product_id
+              config:
+                severity: warn
+      - name: payment_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Success', 'Failed']
+      - name: line_total
+        description: quantity x item_price for this line.
+
+  - name: stg_clickstream
+    description: >
+      One row per app event with event_metadata flattened into typed columns.
+    columns:
+      - name: event_id
+        data_tests: [unique, not_null]
+      - name: session_id
+        data_tests: [not_null]
+      - name: event_name
+        data_tests: [not_null]
+      - name: event_time
+        data_tests: [not_null]
+      - name: traffic_source
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['MOBILE', 'WEB']
+
+  - name: stg_weather
+    description: One row per location per day (Open-Meteo archive).
+    columns:
+      - name: location
+        data_tests: [not_null]
+      - name: weather_date
+        data_tests: [not_null]
+
+  - name: stg_holidays
+    description: Public holidays by date.
+    columns:
+      - name: holiday_date
+        data_tests: [not_null]

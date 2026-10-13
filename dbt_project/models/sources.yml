@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: bronze
+    description: >
+      Raw, append-only copies of the source files written by the Dagster bronze
+      assets. Every column is a string; each table also carries _ingested_at and
+      _source_file (the weather and holidays tables carry _ingested_at only).
+    meta:
+      external_location: "read_parquet('../data/bronze/{name}/*.parquet')"
+    tables:
+      - name: customers
+      - name: products
+      - name: transactions
+      - name: clickstream
+      - name: weather
+      - name: holidays

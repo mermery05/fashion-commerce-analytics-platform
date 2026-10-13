@@ -12,7 +12,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 DATASET_SLUG = "bytadit/transactional-ecommerce"
 RAW_DIR = Path("data/raw")
 SAMPLE_DIR = Path("data/sample")
