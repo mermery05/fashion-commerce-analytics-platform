@@ -1,0 +1,178 @@
+{
+  "churn_model": {
+    "name": "LightGBM Customer Churn Classifier",
+    "metrics": {
+      "roc_auc": 0.9982,
+      "accuracy": 0.9892,
+      "precision": 0.9839,
+      "recall": 0.9886,
+      "f1": 0.9862
+    },
+    "top_features": [
+      {
+        "feature": "tenure_days",
+        "importance": 1549
+      },
+      {
+        "feature": "total_orders",
+        "importance": 1306
+      },
+      {
+        "feature": "avg_distance_km",
+        "importance": 416
+      },
+      {
+        "feature": "avg_order_value",
+        "importance": 414
+      },
+      {
+        "feature": "avg_shipment_fee",
+        "importance": 360
+      },
+      {
+        "feature": "lifetime_spend",
+        "importance": 347
+      },
+      {
+        "feature": "promo_orders_pct",
+        "importance": 304
+      },
+      {
+        "feature": "total_units_purchased",
+        "importance": 238
+      },
+      {
+        "feature": "age",
+        "importance": 231
+      },
+      {
+        "feature": "f_score",
+        "importance": 186
+      },
+      {
+        "feature": "home_location_Jawa Tengah",
+        "importance": 46
+      },
+      {
+        "feature": "home_location_Kalimantan Selatan",
+        "importance": 45
+      },
+      {
+        "feature": "is_repeat_buyer",
+        "importance": 43
+      },
+      {
+        "feature": "home_location_Jawa Timur",
+        "importance": 28
+      },
+      {
+        "feature": "home_location_Kalimantan Barat",
+        "importance": 28
+      }
+    ]
+  },
+  "ltv_model": {
+    "name": "LightGBM Customer Lifetime Value Regressor",
+    "metrics": {
+      "r2_score": 0.9992,
+      "mae_idr": 307986.64,
+      "rmse_idr": 850163.2
+    },
+    "top_features": [
+      {
+        "feature": "total_units_purchased",
+        "importance": 2270
+      },
+      {
+        "feature": "avg_order_value",
+        "importance": 2190
+      },
+      {
+        "feature": "total_orders",
+        "importance": 2086
+      },
+      {
+        "feature": "f_score",
+        "importance": 203
+      },
+      {
+        "feature": "avg_shipment_fee",
+        "importance": 168
+      },
+      {
+        "feature": "tenure_days",
+        "importance": 138
+      },
+      {
+        "feature": "avg_distance_km",
+        "importance": 104
+      },
+      {
+        "feature": "is_repeat_buyer",
+        "importance": 93
+      },
+      {
+        "feature": "promo_orders_pct",
+        "importance": 87
+      },
+      {
+        "feature": "age",
+        "importance": 66
+      },
+      {
+        "feature": "preferred_payment_method_Debit Card",
+        "importance": 15
+      },
+      {
+        "feature": "device_type_Android",
+        "importance": 11
+      },
+      {
+        "feature": "preferred_payment_method_OVO",
+        "importance": 8
+      },
+      {
+        "feature": "preferred_payment_method_Credit Card",
+        "importance": 6
+      },
+      {
+        "feature": "preferred_payment_method_Gopay",
+        "importance": 6
+      }
+    ]
+  },
+  "trained_at": "2026-10-20T18:42:06.172231+00:00",
+  "dataset_rows": 50242,
+  "categorical_columns": [
+    "gender",
+    "device_type",
+    "home_location",
+    "preferred_payment_method"
+  ],
+  "numerical_columns": [
+    "age",
+    "tenure_days",
+    "total_orders",
+    "total_units_purchased",
+    "lifetime_spend",
+    "avg_order_value",
+    "is_repeat_buyer",
+    "f_score",
+    "m_score",
+    "avg_distance_km",
+    "avg_shipment_fee",
+    "promo_orders_pct"
+  ],
+  "ltv_numerical_columns": [
+    "age",
+    "tenure_days",
+    "total_orders",
+    "total_units_purchased",
+    "avg_order_value",
+    "is_repeat_buyer",
+    "f_score",
+    "avg_distance_km",
+    "avg_shipment_fee",
+    "promo_orders_pct"
+  ]
+}

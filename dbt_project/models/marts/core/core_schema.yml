@@ -1,0 +1,89 @@
+version: 2
+
+models:
+  - name: dim_dates
+    description: >
+      Calendar date dimension spanning 2016-2022 enriched with Indonesian public holidays,
+      day names, week numbers, and weekend indicators.
+    columns:
+      - name: date_day
+        description: Primary date key.
+        data_tests: [unique, not_null]
+      - name: is_weekend
+        description: Boolean indicating Saturday or Sunday.
+        data_tests: [not_null]
+      - name: is_holiday
+        description: Boolean indicating whether date is an official national holiday.
+        data_tests: [not_null]
+
+  - name: dim_products
+    description: >
+      Master product dimension combining catalog metadata with historical sales volume,
+      revenue, and automated velocity tiering ('Top Seller', 'Steady Mover', 'Slow Mover', 'Zero Sales').
+    columns:
+      - name: product_id
+        description: Unique product identifier.
+        data_tests: [unique, not_null]
+      - name: master_category
+        data_tests: [not_null]
+      - name: velocity_tier
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Top Seller', 'Steady Mover', 'Slow Mover', 'Zero Sales']
+
+  - name: dim_customers
+    description: >
+      Customer master dimension enriched with lifetime purchase metrics, order frequency,
+      recency, tenure, 180-day customer activity status, and quintile RFM segmentation.
+    columns:
+      - name: customer_id
+        description: Unique customer identifier.
+        data_tests: [unique, not_null]
+      - name: customer_activity_status
+        description: >
+          Activity status calculated relative to project reference_date:
+          'Active' (<=90d), 'At Risk' (91-180d), 'Lapsed' (>180d), 'Never Purchased'.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Active', 'At Risk', 'Lapsed', 'Never Purchased']
+      - name: rfm_segment
+        description: Rule-based RFM classification based on R/F/M quintile scores.
+        data_tests: [not_null]
+
+  - name: fct_orders
+    description: >
+      Order line fact table containing item-level sales, order-level allocations (promo and shipping),
+      fulfillment SLAs, delivery distance computed via Haversine formula, and new customer flags.
+    columns:
+      - name: order_line_id
+        description: Primary key of order line item.
+        data_tests: [unique, not_null]
+      - name: booking_id
+        description: Order booking identifier.
+        data_tests: [not_null]
+      - name: customer_id
+        description: Customer identifier foreign key.
+        data_tests: [not_null]
+      - name: payment_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Success', 'Failed']
+
+  - name: fct_sessions
+    description: >
+      Session fact table aggregating clickstream interaction depth, event counts, duration,
+      funnel progression milestones (home -> search -> detail -> cart -> booking), and conversion outcome.
+    columns:
+      - name: session_id
+        description: Primary session key.
+        data_tests: [unique, not_null]
+      - name: traffic_source
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['MOBILE', 'WEB']
+      - name: total_events
+        data_tests: [not_null]

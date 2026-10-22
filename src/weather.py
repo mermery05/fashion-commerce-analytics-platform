@@ -1,4 +1,5 @@
 import time
+
 import requests
 
 URL = "https://archive-api.open-meteo.com/v1/archive"

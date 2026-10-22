@@ -3,6 +3,6 @@ fashion:
   outputs:
     dev:
       type: duckdb
-      # Relative to the folder dbt is run from (dbt_project/)
-      path: ../data/warehouse.duckdb
+      # Relative to the folder dbt is run from (dbt_project/), or overridden via DBT_DUCKDB_PATH
+      path: "{{ env_var('DBT_DUCKDB_PATH', '../data/warehouse.duckdb') }}"
       threads: 4

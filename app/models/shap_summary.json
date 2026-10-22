@@ -1,0 +1,86 @@
+{
+  "base_value_log_odds": -1.9965,
+  "base_probability": 0.1196,
+  "top_shap_features": [
+    {
+      "feature": "total_orders",
+      "mean_abs_shap": 3.836
+    },
+    {
+      "feature": "tenure_days",
+      "mean_abs_shap": 2.5795
+    },
+    {
+      "feature": "f_score",
+      "mean_abs_shap": 0.8611
+    },
+    {
+      "feature": "total_units_purchased",
+      "mean_abs_shap": 0.2394
+    },
+    {
+      "feature": "lifetime_spend",
+      "mean_abs_shap": 0.2292
+    },
+    {
+      "feature": "is_repeat_buyer",
+      "mean_abs_shap": 0.1395
+    },
+    {
+      "feature": "avg_order_value",
+      "mean_abs_shap": 0.114
+    },
+    {
+      "feature": "avg_distance_km",
+      "mean_abs_shap": 0.0851
+    },
+    {
+      "feature": "avg_shipment_fee",
+      "mean_abs_shap": 0.0513
+    },
+    {
+      "feature": "promo_orders_pct",
+      "mean_abs_shap": 0.0493
+    },
+    {
+      "feature": "age",
+      "mean_abs_shap": 0.0441
+    },
+    {
+      "feature": "preferred_payment_method_Gopay",
+      "mean_abs_shap": 0.0196
+    },
+    {
+      "feature": "gender_F",
+      "mean_abs_shap": 0.0166
+    },
+    {
+      "feature": "home_location_Jawa Tengah",
+      "mean_abs_shap": 0.0117
+    },
+    {
+      "feature": "m_score",
+      "mean_abs_shap": 0.0107
+    },
+    {
+      "feature": "home_location_Kalimantan Tengah",
+      "mean_abs_shap": 0.0087
+    },
+    {
+      "feature": "home_location_Jawa Timur",
+      "mean_abs_shap": 0.0083
+    },
+    {
+      "feature": "preferred_payment_method_OVO",
+      "mean_abs_shap": 0.0082
+    },
+    {
+      "feature": "home_location_Jakarta Raya",
+      "mean_abs_shap": 0.0063
+    },
+    {
+      "feature": "device_type_Android",
+      "mean_abs_shap": 0.0058
+    }
+  ]
+}

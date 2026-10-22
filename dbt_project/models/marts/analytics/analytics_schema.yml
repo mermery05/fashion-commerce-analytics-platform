@@ -1,0 +1,169 @@
+version: 2
+
+models:
+  - name: mart_exec_kpis
+    description: >
+      Executive monthly business overview tracking revenue, orders, AOV, active customers,
+      new vs returning customer revenue contribution, and MoM/YoY growth rates (Questions E1, E2, F3).
+    columns:
+      - name: order_month
+        description: Month of order placement.
+        data_tests: [unique, not_null]
+      - name: total_orders
+        data_tests: [not_null]
+      - name: net_revenue
+        data_tests: [not_null]
+
+  - name: mart_geo_performance
+    description: >
+      Geographic breakdown of orders, gross and net revenue, active customers, average delivery distance,
+      and shipment fees as a percentage of order value by province and country (Questions E3, L1).
+    columns:
+      - name: order_month
+        data_tests: [not_null]
+      - name: home_country
+        data_tests: [not_null]
+      - name: home_location
+        data_tests: [not_null]
+
+  - name: mart_funnel_daily
+    description: >
+      Daily conversion funnel tracking progression through key user journey stages (Homepage, Search,
+      Item Detail, Add to Cart, Booking) by traffic source (Mobile vs Web) (Questions M1, P1).
+    columns:
+      - name: session_date
+        data_tests: [not_null]
+      - name: traffic_source
+        data_tests: [not_null]
+      - name: total_sessions
+        data_tests: [not_null]
+
+  - name: mart_search_intent
+    description: >
+      Search query analysis capturing search frequencies, cart add rates, conversion rates, and
+      catalog gaps where users search frequently but find nothing to purchase (Question M2).
+    columns:
+      - name: search_keyword
+        description: Cleaned lowercased search query.
+        data_tests: [unique, not_null]
+      - name: distinct_sessions
+        data_tests: [not_null]
+
+  - name: mart_cohort_retention
+    description: >
+      Customer cohort analysis grouping buyers by first-purchase month and measuring active retention
+      rates and cumulative revenue generation over months 0 through 12+ (Question M3).
+    columns:
+      - name: cohort_month
+        data_tests: [not_null]
+      - name: month_number
+        data_tests: [not_null]
+      - name: cohort_size
+        data_tests: [not_null]
+
+  - name: mart_rfm_segments
+    description: >
+      RFM segment profiles detailing customer distribution, revenue contribution, average order frequency,
+      recency, and LTV distribution percentiles by segment, gender, and country (Questions M4, C3).
+    columns:
+      - name: rfm_segment
+        data_tests: [not_null]
+      - name: customer_count
+        data_tests: [not_null]
+      - name: total_revenue
+        data_tests: [not_null]
+
+  - name: mart_cart_abandonment
+    description: >
+      Cart abandonment monitoring measuring add-to-cart to paid-booking rates, abandoned cart counts,
+      and realized vs lost revenue by traffic source and day (Question P3).
+    columns:
+      - name: session_date
+        data_tests: [not_null]
+      - name: traffic_source
+        data_tests: [not_null]
+      - name: sessions_with_cart
+        data_tests: [not_null]
+
+  - name: mart_promo_lift
+    description: >
+      Promotional performance evaluation comparing order value, discount depth, and revenue lift
+      across promotional codes for new vs. returning customers (Questions PR1, PR2).
+    columns:
+      - name: promo_code
+        data_tests: [not_null]
+      - name: customer_type
+        data_tests: [not_null]
+      - name: total_orders
+        data_tests: [not_null]
+
+  - name: mart_pricing_by_category
+    description: >
+      Price-band volume and revenue analysis across catalog hierarchies, calculating average price points
+      and the gross-to-net revenue gap (promotional cost share) by category (Questions PR3, PR4).
+    columns:
+      - name: master_category
+        data_tests: [not_null]
+      - name: price_band
+        data_tests: [not_null]
+      - name: total_units_sold
+        data_tests: [not_null]
+
+  - name: mart_product_performance
+    description: >
+      Catalog product performance combining cart adds, unit sales, order counts, revenue, and
+      merchandising action flags (e.g., High Cart / Zero Sales -> Reprice/Photograph) (Questions I1, I2, I4).
+    columns:
+      - name: product_id
+        description: Unique catalog product identifier.
+        data_tests: [unique, not_null]
+      - name: merchandising_action
+        data_tests: [not_null]
+
+  - name: mart_demand_drivers
+    description: >
+      Demand sensitivity mart correlating daily sales and unit volumes with local weather conditions
+      (mean temperature, precipitation) and calendar holiday events (Question I3).
+    columns:
+      - name: order_date
+        data_tests: [not_null]
+      - name: home_location
+        data_tests: [not_null]
+      - name: master_category
+        data_tests: [not_null]
+
+  - name: mart_logistics
+    description: >
+      Order-level logistics mart detailing promised delivery lead days, SLA window tiers, Haversine delivery
+      distances, shipping fees, and shipping fee share of order value (Questions L1, L2, L3).
+    columns:
+      - name: booking_id
+        description: Unique order booking identifier.
+        data_tests: [unique, not_null]
+      - name: shipment_fee
+        data_tests: [not_null]
+      - name: sla_window_tier
+        data_tests: [not_null]
+
+  - name: mart_payments
+    description: >
+      Payment gateway performance tracking authorization success and failure rates, lost revenue from failed
+      transactions, customer retry rates, and eventual retry success rates by provider (Questions F1, F2).
+    columns:
+      - name: order_month
+        data_tests: [not_null]
+      - name: payment_method
+        data_tests: [not_null]
+      - name: total_payment_attempts
+        data_tests: [not_null]
+
+  - name: mart_customer_status
+    description: >
+      CRM lifecycle status tracking active, at-risk, and lapsed customers under a 180-day inactivity definition,
+      along with repeat purchase flags and average days between consecutive orders (Questions C1, C2).
+    columns:
+      - name: customer_id
+        description: Unique customer identifier.
+        data_tests: [unique, not_null]
+      - name: customer_activity_status
+        data_tests: [not_null]

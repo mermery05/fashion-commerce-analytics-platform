@@ -1,0 +1,97 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  code-quality:
+    name: Code Quality & Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          version: "latest"
+
+      - name: Set up Python
+        run: uv python install 3.11
+
+      - name: Install Dependencies
+        run: uv sync --frozen --dev
+
+      - name: Run Ruff Linter
+        run: uv run ruff check .
+
+      - name: Run Ruff Formatter Check
+        run: uv run ruff format --check .
+
+      - name: Run SQLFluff dbt Linter
+        run: uv run sqlfluff lint dbt_project/models
+
+  tests:
+    name: Unit Tests & Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          version: "latest"
+
+      - name: Set up Python
+        run: uv python install 3.11
+
+      - name: Install Dependencies
+        run: uv sync --frozen --dev
+
+      - name: Run Pytest Test Suite
+        run: uv run pytest
+
+      - name: Validate Dagster Definitions
+        run: |
+          uv run python -c "
+          import sys
+          sys.path.insert(0, '.')
+          from orchestration.definitions import defs
+          assert len(defs.resolve_all_asset_keys()) >= 31, 'Missing expected asset keys'
+          assert len(defs.get_schedule_defs()) >= 1, 'Missing expected schedule definitions'
+          print('Dagster definitions validated successfully.')
+          "
+
+  dbt-validation:
+    name: dbt Compile & Model Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          version: "latest"
+
+      - name: Set up Python
+        run: uv python install 3.11
+
+      - name: Install Dependencies
+        run: uv sync --frozen --dev
+
+      - name: dbt Compile Check
+        working-directory: dbt_project
+        run: uv run dbt compile --profiles-dir .

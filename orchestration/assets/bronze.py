@@ -1,14 +1,15 @@
-import time
-import dagster as dg
-import duckdb
 import json
 import re
+import time
 from pathlib import Path
+
+import dagster as dg
+import duckdb
 import pandas as pd
 
+from src.calendar_data import holiday_rows
 from src.ingest import csv_to_bronze
 from src.weather import fetch_daily_weather
-from src.calendar_data import holiday_rows
 
 SOURCES = {
     "customers": "customer.csv",
@@ -60,7 +61,8 @@ def bronze_weather(context: dg.AssetExecutionContext):
 
     rows, fetched, from_cache = [], 0, 0
     for name, lat, lon in locs:
-        cache_file = CACHE / f"{re.sub(r'\W+', '_', name)}.json"
+        clean_name = re.sub(r"\W+", "_", name)
+        cache_file = CACHE / f"{clean_name}.json"
         if cache_file.exists():
             data = json.loads(cache_file.read_text())
             from_cache += 1

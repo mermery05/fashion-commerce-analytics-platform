@@ -1,0 +1,16 @@
+[sqlfluff]
+dialect = duckdb
+templater = jinja
+max_line_length = 120
+exclude_rules = layout.spacing,structure.column_order,aliasing.self_alias.column,references.consistent,references.keywords,capitalisation.identifiers,references.quoting,aliasing.table,layout.indent
+
+[sqlfluff:templater:jinja]
+load_macros_from_path = dbt_project/macros
+
+[sqlfluff:templater:jinja:macros]
+source = lambda s, t: f"read_parquet('../data/bronze/{t}/*.parquet')"
+var = lambda v: "2022-08-01" if v == "reference_date" else ""
+
+[sqlfluff:indentation]
+indent_unit = space
+tab_space_size = 4
