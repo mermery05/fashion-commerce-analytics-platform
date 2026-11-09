@@ -2,7 +2,7 @@
 
 ### End-to-End Lakehouse · Predictive Churn & LTV · TreeSHAP Explainability · Air-Gapped AI Data Agent
 
-[![CI Pipeline](https://github.com/mermery05/fashion-commerce-analytics-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/mermery05/fashion-commerce-analytics-platform/actions/workflows/ci.yml)
+[![CI Pipeline](https://github.com/mermery05/fashion-commerce-analytics-platform/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/mermery05/fashion-commerce-analytics-platform/actions/workflows/ci.yml)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Meryem%20Hayaoui-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/meryem-hayaoui/)
 ![Python 3.13](https://img.shields.io/badge/python-3.13%20%7C%203.11-blue?logo=python&logoColor=white)
 ![DuckDB](https://img.shields.io/badge/DuckDB-1.1+-FFF000?logo=duckdb&logoColor=black)
