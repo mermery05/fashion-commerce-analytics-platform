@@ -22,6 +22,16 @@ class CustomDagsterDbtTranslator(DagsterDbtTranslator):
             return dg.AssetKey(f"bronze_{dbt_resource_props['name']}")
         return super().get_asset_key(dbt_resource_props)
 
+    def get_group_name(self, dbt_resource_props) -> str:
+        """Map dbt models to clear Medallion architecture asset groups (silver, gold)."""
+        schema = dbt_resource_props.get("schema", "")
+        fqn = dbt_resource_props.get("fqn", [])
+        if "staging" in fqn or schema == "silver":
+            return "silver"
+        if "marts" in fqn or schema == "gold":
+            return "gold"
+        return super().get_group_name(dbt_resource_props) or "default"
+
 
 @dbt_assets(
     manifest=dbt_manifest_path,

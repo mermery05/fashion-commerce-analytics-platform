@@ -236,5 +236,5 @@ dbt_project/logs/
 .tmp_dagster_home_*/
 
 # Internal project documentation and running log
-PROJECT_DOCUMENTATION.md
+PROJECT_DOCUMENTATION*.md
 PROJECT_LOG.md

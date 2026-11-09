@@ -665,7 +665,7 @@ with tab_simulator:
             st.metric(
                 "Forecasted 12-Month LTV",
                 format_currency(pred_ltv),
-                help_text="Expected gross monetary value over next 12 months",
+                help="Expected gross monetary value over next 12 months",
             )
             if pred_ltv >= 5000000:
                 st.info("💎 **Platinum/Gold Value Tier**: High lifetime value account.")
@@ -676,7 +676,7 @@ with tab_simulator:
             st.metric(
                 "Risk-Adjusted Expected Value",
                 format_currency(expected_net),
-                help_text="(1 - Churn Probability) * Forecasted LTV",
+                help="(1 - Churn Probability) * Forecasted LTV",
                 delta=f"-{format_currency(prob * pred_ltv)} churn discount",
                 delta_color="inverse",
             )
