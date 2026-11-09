@@ -197,7 +197,7 @@ def check_ollama_status(host: str = "http://localhost:11434") -> tuple[bool, lis
             data = resp.json()
             models = [m.get("name", "") for m in data.get("models", []) if "name" in m]
             return True, models
-    except Exception:  # noqa: BLE001
+    except Exception:  # noqa: BLE001, S110
         pass
     return False, []
 
@@ -590,7 +590,7 @@ def execute_agentic_workflow(
                 "attempts": [],
                 "engine_used": "Built-in Showcase Engine (Offline)",
             }
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             return {"success": False, "error": str(e), "sql": sql}
 
     # Mode B & C: Generative LLM with Self-Healing Loop
@@ -639,7 +639,7 @@ def execute_agentic_workflow(
                     ],
                     "engine_used": f"{engine_name} -> Fallback (Timeout Guard)",
                 }
-            except Exception as fb_err:
+            except Exception as fb_err:  # noqa: BLE001
                 return {
                     "success": False,
                     "error": f"Timeout and fallback error: {fb_err}",
@@ -662,7 +662,7 @@ def execute_agentic_workflow(
                     "attempts": [{"attempt": 1, "sql": "N/A", "error": str(req_err)}],
                     "engine_used": f"{engine_name} -> Fallback (Connection Guard)",
                 }
-            except Exception as fb_err:
+            except Exception as fb_err:  # noqa: BLE001
                 return {
                     "success": False,
                     "error": f"Connection error: {req_err} | Fallback: {fb_err}",
@@ -730,7 +730,7 @@ def execute_agentic_workflow(
                         "attempts": diagnostic_attempts,
                         "engine_used": f"{engine_name} -> Fallback",
                     }
-                except Exception as fallback_err:
+                except Exception as fallback_err:  # noqa: BLE001
                     return {
                         "success": False,
                         "error": f"Agent error: {error_str} | Fallback error: {fallback_err}",
@@ -923,7 +923,7 @@ for idx, msg in enumerate(st.session_state.agent_messages):
         if "sql" in msg:
             with st.expander("🔍 View Generated SQL Query", expanded=False):
                 st.code(msg["sql"], language="sql")
-        if "healed" in msg and msg["healed"]:
+        if msg.get("healed"):
             st.info(
                 "🛡️ **Self-Healing Diagnostics**: The query encountered a syntax error and was autonomously corrected by the agent."
             )

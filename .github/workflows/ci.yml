@@ -69,7 +69,7 @@ jobs:
           sys.path.insert(0, '.')
           from orchestration.definitions import defs
           assert len(defs.resolve_all_asset_keys()) >= 31, 'Missing expected asset keys'
-          assert len(defs.get_schedule_defs()) >= 1, 'Missing expected schedule definitions'
+          assert len(list(defs.schedules)) >= 1, 'Missing expected schedule definitions'
           print('Dagster definitions validated successfully.')
           "
 
@@ -91,6 +91,9 @@ jobs:
 
       - name: Install Dependencies
         run: uv sync --frozen --dev
+
+      - name: Ensure Data Directory Exists
+        run: mkdir -p data
 
       - name: dbt Compile Check
         working-directory: dbt_project
