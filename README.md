@@ -45,32 +45,32 @@ Operating as an embedded **Medallion Lakehouse** ($0/month infrastructure cost v
 ```mermaid
 flowchart TD
     subgraph INGESTION ["1. Ingestion & Data Lake (Bronze)"]
-        A[Client Clickstream CSVs] -->|DuckDB Streaming| E[(Bronze Parquet<br/>data/bronze/clickstream/)]
-        B[Transaction CSVs] -->|DuckDB Streaming| F[(Bronze Parquet<br/>data/bronze/transactions/)]
-        C[Customer & Product CSVs] -->|DuckDB Streaming| G[(Bronze Parquet<br/>data/bronze/customers/)]
-        D[Open-Meteo REST API] -->|Exponential Backoff| H[(Bronze Parquet<br/>data/bronze/weather/)]
+        A["Client Clickstream CSVs"] -->|DuckDB Streaming| E[("Bronze Parquet<br/>data/bronze/clickstream/")]
+        B["Transaction CSVs"] -->|DuckDB Streaming| F[("Bronze Parquet<br/>data/bronze/transactions/")]
+        C["Customer & Product CSVs"] -->|DuckDB Streaming| G[("Bronze Parquet<br/>data/bronze/customers/")]
+        D["Open-Meteo REST API"] -->|Exponential Backoff| H[("Bronze Parquet<br/>data/bronze/weather/")]
     end
 
     subgraph TRANSFORMATION ["2. dbt Transformation Engine (DuckDB Warehouse)"]
-        E & F & G & H -->|dbt staging| I[Silver Layer<br/>Typing, Deduping, Regex JSON Parser]
-        I -->|dbt core| J[Gold Star Schema<br/>fct_orders, fct_sessions, dim_customers, dim_products]
-        J -->|dbt marts| K[14 Gold Domain Marts<br/>RFM Segments, Funnel, Logistics, Demand Drivers]
+        E & F & G & H -->|dbt staging| I["Silver Layer<br/>Typing, Deduping, Regex JSON Parser"]
+        I -->|dbt core| J["Gold Star Schema<br/>fct_orders, fct_sessions, dim_customers, dim_products"]
+        J -->|dbt marts| K["14 Gold Domain Marts<br/>RFM Segments, Funnel, Logistics, Demand Drivers"]
     end
 
     subgraph ML_ENGINE ["3. Predictive ML & Explainable AI"]
-        K -->|Feature Marts| L[LightGBM Churn Classifier<br/>ROC-AUC: 0.749 | F1: 0.710]
-        K -->|Log Spend Marts| M[LightGBM 12-Month LTV Regressor<br/>R²: 0.9992 | MAE: Rp 307K]
-        L & M -->|Game Theory| N[TreeSHAP Explainer<br/>Global Beeswarm + Local Waterfall Plots]
+        K -->|Feature Marts| L["LightGBM Churn Classifier<br/>ROC-AUC: 0.749 · F1: 0.710"]
+        K -->|Log Spend Marts| M["LightGBM 12-Month LTV Regressor<br/>R²: 0.9992 · MAE: Rp 307K"]
+        L & M -->|Game Theory| N["TreeSHAP Explainer<br/>Global Beeswarm + Local Waterfall Plots"]
     end
 
     subgraph SERVING ["4. Serving & Autonomous Agent"]
-        K & L & M & N --> O[Streamlit 8-Page Enterprise Portal]
-        K --> P[Air-Gapped AI Data Agent<br/>Ollama Local LLM + Self-Healing SQL Loop]
+        K & L & M & N --> O["Streamlit 8-Page Enterprise Portal"]
+        K --> P["Air-Gapped AI Data Agent<br/>Ollama Local LLM + Self-Healing SQL Loop"]
     end
 
     subgraph ORCHESTRATION ["5. Governance & CI/CD"]
-        Q[Dagster Software-Defined Assets<br/>Daily 02:00 UTC Schedule] -.-> INGESTION & TRANSFORMATION & ML_ENGINE
-        R[GitHub Actions CI<br/>Ruff Lint, dbt Test, Pytest] -.-> SERVING
+        Q["Dagster Software-Defined Assets<br/>Daily 02:00 UTC Schedule"] -.-> INGESTION & TRANSFORMATION & ML_ENGINE
+        R["GitHub Actions CI<br/>Ruff Lint, dbt Test, Pytest"] -.-> SERVING
     end
 
     style INGESTION fill:#fdf6e2,stroke:#b58900
