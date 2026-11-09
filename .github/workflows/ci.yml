@@ -62,6 +62,13 @@ jobs:
       - name: Run Pytest Test Suite
         run: uv run pytest
 
+      - name: Ensure Data Directory Exists
+        run: mkdir -p data
+
+      - name: Compile dbt Manifest for Dagster
+        working-directory: dbt_project
+        run: uv run dbt parse --profiles-dir .
+
       - name: Validate Dagster Definitions
         run: |
           uv run python -c "

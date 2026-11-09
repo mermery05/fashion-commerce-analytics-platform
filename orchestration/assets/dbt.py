@@ -6,7 +6,10 @@ from dagster_dbt import DagsterDbtTranslator, DbtCliResource, dbt_assets
 DBT_PROJECT_DIR = Path(__file__).resolve().parent.parent.parent / "dbt_project"
 MANIFEST_PATH = DBT_PROJECT_DIR / "target" / "manifest.json"
 
-dbt_resource = DbtCliResource(project_dir=str(DBT_PROJECT_DIR))
+dbt_resource = DbtCliResource(
+    project_dir=str(DBT_PROJECT_DIR),
+    profiles_dir=str(DBT_PROJECT_DIR),
+)
 
 if MANIFEST_PATH.exists():
     dbt_manifest_path = MANIFEST_PATH
